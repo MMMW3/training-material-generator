@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Michelle W | 技术架构 · 云计算· 安全</title>
+    <!-- 引入简洁的字体系统 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0A0A0C;
+            font-family: 'Inter', sans-serif;
+            color: #E8E9F0;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* 极简容器 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 导航栏 - 极简，无多余装饰 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            font-size: 0.9rem;
+            font-weight: 450;
+        }
+
+        .nav-links a {
+            color: #B0B3C0;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-links a:hover {
+            color: #FFFFFF;
+        }
+
+        /* 主要按钮风格 — 极简线性 */
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.6rem 1.4rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #E8E9F0;
+            text-decoration: none;
+            transition: all 0.25s;
+            display: inline-block;
+            letter-spacing: -0.2px;
+        }
+
+        .btn-outline:hover {
+            border-color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Hero 区域 — 参照附件的安静力量感 */
+        .hero {
+            padding: 3rem 0 5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 3rem;
+        }
+
+        .hero-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            color: #8B8F9E;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 550;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+            max-width: 800px;
+            margin-bottom: 1.8rem;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #B0B3C0;
+            max-width: 580px;
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+
+        /* 三个核心卡片 (极简大留白) */
+        .grid-3 {
+            display: flex;
+            gap: 2rem;
+            margin: 3.5rem 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex: 1;
+            background: rgba(20, 20, 26, 0.5);
+            border-radius: 24px;
+            padding: 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(24, 24, 30, 0.6);
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            opacity: 0.75;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: #FFFFFF;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: #9A9EAF;
+            line-height: 1.45;
+        }
+
+        /* 项目区域 (极简分割) */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 4rem 0 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: -0.3px;
+            color: #FFFFFF;
+        }
+
+        .section-sub {
+            color: #7F8496;
+            font-size: 0.8rem;
+            letter-spacing: 0.2px;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            transition: 0.2s;
+        }
+
+        .project-info h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            color: #FFFFFF;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            color: #C0C4D4;
+        }
+
+        .project-year {
+            font-size: 0.8rem;
+            color: #6F7487;
+            font-feature-settings: "tnum";
+        }
+
+        /* tech 区域 */
+        .tech-pillars {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0 3rem;
+        }
+
+        .tech-category {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .tech-category h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #8B90A3;
+            margin-bottom: 1rem;
+        }
+
+        .tech-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .tech-items span {
+            font-size: 0.85rem;
+            color: #D0D3E2;
+        }
+
+        /* experience 时间轴 */
+        .timeline {
+            margin: 2rem 0 3rem;
+        }
+
+        .timeline-entry {
+            display: flex;
+            gap: 2rem;
+            padding: 1.6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+        }
+
+        .timeline-year {
+            width: 100px;
+            font-weight: 500;
+            color: #AAAFC3;
+            font-size: 0.85rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            color: #FFFFFF;
+        }
+
+        .timeline-role {
+            font-size: 0.8rem;
+            color: #B5B9CA;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.85rem;
+            color: #9A9FB0;
+            max-width: 85%;
+        }
+
+        /* about 简洁区域 */
+        .about-grid {
+            display: flex;
+            gap: 3rem;
+            margin: 2rem 0 4rem;
+            flex-wrap: wrap;
+        }
+
+        .about-text {
+            flex: 2;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            color: #C2C6DA;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .cert-badge {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 1.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cert-badge h4 {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-list {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.07);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #E0E3F0;
+        }
+
+        .footer {
+            margin-top: 5rem;
+            padding: 2rem 0 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #6A6F84;
+            flex-wrap: wrap;
+        }
+
+        .footer a {
+            color: #A0A5BB;
+            text-decoration: none;
+            margin-left: 1.5rem;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+            .hero-title {
+                font-size: 2.4rem;
+            }
+            .nav-links {
+                gap: 1.2rem;
+            }
+            .timeline-desc {
+                max-width: 100%;
+            }
+            .timeline-entry {
+                gap: 1rem;
+            }
+        }
+
+        /* 隐藏锚点平滑 */
+        section {
+            scroll-margin-top: 80px;
+        }
+
+        hr {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 导航栏 极简对照 附件的 Home/Studio/About 等风格 -->
+    <div class="navbar">
+        <a href="#" class="logo">Michelle W</a>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#projects">Projects</a>
+            <a href="#tech">Tech</a>
+            <a href="#experience">Experience</a>
+            <a href="#about">About</a>
+        </div>
+        <div>
+            <a href="#" class="btn-outline" style="padding: 0.5rem 1.2rem;">Begin Journey</a>
+        </div>
+    </div>
+
+    <!-- HOME 区域 / 参照 "Beyond silence, we build the eternal" 氛围 -->
+    <section id="home">
+        <div class="hero">
+            <div class="hero-tag">IT ARCHITECT · CISP · AZURE</div>
+            <h1 class="hero-title">Beyond infrastructure,<br>we build resilience.</h1>
+            <div class="hero-desc">
+                技术架构师 & 云安全专家 · 十年跨国协作经验，从云迁移到等保合规，构建坚实安全的数字基石。
+            </div>
+            <a href="#projects" class="btn-outline" style="border-color: rgba(255,255,255,0.3);">Explore Work →</a>
+        </div>
+
+        <!-- 三个核心能力卡片 (类似附件中的卡片区，但展示专业极简) -->
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-icon">☁️</div>
+                <h3>Cloud Architecture</h3>
+                <p>Azure IaaS, 迁移策略, IaC (Terraform / ARM) 以及高可用设计。</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔐</div>
+                <h3>Security & Compliance</h3>
+                <p>CISP 认证，等保三级全流程落地，云安全架构与威胁分析。</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🌍</div>
+                <h3>Global Collaboration</h3>
+                <p>协调跨洲团队（美/印/西/中），驱动复杂项目准时交付。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS 区域  极简项目列表，展示精选成果 -->
+    <section id="projects">
+        <div class="section-header">
+            <h2>Selected Projects</h2>
+            <div class="section-sub">深度案例 · 技术实现</div>
+        </div>
+        <div class="project-list">
+            <div class="project-item">
+                <div class="project-info">
+                    <h3>IoT 云平台 · 等保三级认证</h3>
+                    <div class="project-tags">
+                        <span class="tag">Security</span>
+                        <span class="tag">Cross-border</span>
+                        <span class="tag">MLPS 3.0</span>
+                    </div>
+                </div>
+                <div class="project-year">2024</div>
+            </div>
+            <div class="project-item">
+                <div class="project-info">
+                    <h3>IT 事件可视化 · Power BI 分析平台</h3>
+                    <div class="project-tags">
+                        <span class="tag">Data Pipeline</span>
+                        <span class="tag">Teams/SharePoint</span>
+                        <span class="tag">Dashboard</span>
+                    </div>
+                </div>
+                <div class="project-year">2023</div>
+            </div>
+            <div class="project-item">
+                <div class="project-info">
+                    <h3>本地数据中心迁移 Azure 云</h3>
+                    <div class="project-tags">
+                        <span class="tag">Migration</span>
+                        <span class="tag">Terraform</span>
+                        <span class="tag">Bastion</span>
+                    </div>
+                </div>
+                <div class="project-year">2021</div>
+            </div>
+            <div class="project-item">
+                <div class="project-info">
+                    <h3>HRIS 中国区本地化 & UAT 管理</h3>
+                    <div class="project-tags">
+                        <span class="tag">JIRA</span>
+                        <span class="tag">Data Migration</span>
+                        <span class="tag">Process Mapping</span>
+                    </div>
+                </div>
+                <div class="project-year">2018-2019</div>
+            </div>
+        </div>
+        <!-- 含蓄提示更深度内容 -->
+        <div style="margin-top: 1rem; text-align: right;">
+            <a href="#" style="color:#9EA3B8; font-size:0.75rem; text-decoration: none;">+ 完整案例详解 →</a>
+        </div>
+    </section>
+
+    <!-- TECH 区域 按照 CV 提炼的技术能力 -->
+    <section id="tech">
+        <div class="section-header">
+            <h2>Core Tech Stack</h2>
+            <div class="section-sub">云 · 安全 · 自动化</div>
+        </div>
+        <div class="tech-pillars">
+            <div class="tech-category">
+                <h4>Cloud Platform</h4>
+                <div class="tech-items">
+                    <span>Azure IaaS (VM/Storage)</span>
+                    <span>Virtual Networking / NSG</span>
+                    <span>Backup & Site Recovery</span>
+                    <span>Azure Security Center</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>Security & Compliance</h4>
+                <div class="tech-items">
+                    <span>CISP / MLPS 2.0/3.0</span>
+                    <span>RBAC / IAM Strategy</span>
+                    <span>Incident Response</span>
+                    <span>Contingency Planning</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>DevOps & Data</h4>
+                <div class="tech-items">
+                    <span>Terraform / ARM</span>
+                    <span>CI/CD Pipelines</span>
+                    <span>Power BI / Log Analytics</span>
+                    <span>JIRA / Agile</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE 区域 时间轴简历 -->
+    <section id="experience">
+        <div class="section-header">
+            <h2>Experience Timeline</h2>
+            <div class="section-sub">跨国企业 · 架构演进</div>
+        </div>
+        <div class="timeline">
+            <div class="timeline-entry">
+                <div class="timeline-year">2022 – 2025</div>
+                <div class="timeline-content">
+                    <h3>Werfen in China</h3>
+                    <div class="timeline-role">IT Solution Architect</div>
+                    <div class="timeline-desc">
+                        主导IoT云平台等保三级认证，协调全球团队安全整改；设计重大故障应急预案；构建Power BI事件可视化模型，提升效率。
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-entry">
+                <div class="timeline-year">2021 – 2022</div>
+                <div class="timeline-content">
+                    <h3>Wicresoft – Microsoft Global Azure</h3>
+                    <div class="timeline-role">Azure IaaS Support Engineer</div>
+                    <div class="timeline-desc">
+                        负责虚拟机/存储/备份疑难解答，提供云架构方案，设计NSG/RBAC策略并协助客户迁移。通过L100&L200认证。
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-entry">
+                <div class="timeline-year">2019 – 2021</div>
+                <div class="timeline-content">
+                    <h3>British Council</h3>
+                    <div class="timeline-role">Information System Maintenance Officer</div>
+                    <div class="timeline-desc">
+                        管理Azure云资源，CI/CD与IaC实践，主导本地迁移上云项目，设计堡垒机方案。Azure管理员认证。
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-entry">
+                <div class="timeline-year">2016 – 2019</div>
+                <div class="timeline-content">
+                    <h3>British Council</h3>
+                    <div class="timeline-role">HRIS Coordinator</div>
+                    <div class="timeline-desc">
+                        HRIS系统本地化，数据迁移及UAT全流程跟踪，获得Great Achievement Award。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT + 证书部分，体现化学背景到架构师的故事线 -->
+    <section id="about">
+        <div class="section-header">
+            <h2>About</h2>
+            <div class="section-sub">从化学到架构 · 理性构筑者</div>
+        </div>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>北京交通大学应用化学硕士（国家奖学金），对复杂系统的底层逻辑有天然的敏锐。从化学实验室转向 IT 基础架构，相信严谨与跨学科思维是技术架构的核心。</p>
+                <p>十年经历横跨 HRIS 协调、Azure 技术支持、再到企业级架构师，始终专注于安全合规、云原生韧性以及全球化团队的协作效率。持有 CISP（注册信息安全工程师）与 Azure 管理员认证。</p>
+                <p style="font-size:0.9rem; margin-top:1.2rem;">“Beyond silence, we build the eternal” —— 安静而有力的技术输出，为杰出头脑构建数字沃土。</p>
+            </div>
+            <div class="cert-badge">
+                <h4>Credentials</h4>
+                <div class="badge-list">
+                    <span class="badge">CISP</span>
+                    <span class="badge">Azure Administrator</span>
+                    <span class="badge">L100/L200 VM Support</span>
+                </div>
+                <div style="margin-top: 1.2rem;">
+                    <h4 style="margin-bottom:0.5rem;">Education</h4>
+                    <p style="font-size:0.8rem; color:#B7BCD0;">北京交通大学 · 应用化学 硕士 (2013-2016)<br>国家奖学金 · 材料化学学士</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 极简 footer，呼应 Reach Us 风格，但保留技术调性 -->
+    <div class="footer">
+        <div>© 2026 Michelle W · 架构叙事</div>
+        <div>
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+            <a href="#">Email</a>
+        </div>
+    </div>
+</div>
+
+<!-- 平滑滚动及极简交互，无追踪，无多余装饰 -->
+<script>
+    // 让导航链接滚动平滑
+    document.querySelectorAll('.nav-links a, .hero .btn-outline, .footer a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+    // Begin Journey 按钮同样行为指向 home（保持宁静）
+    const beginBtn = document.querySelector('.navbar .btn-outline');
+    if(beginBtn) {
+        beginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('#home').scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michelle W · Solution Architect</title>
+  <!-- Font & base style -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <style>
+    /* ----- RESET & WISE DESIGN TOKENS ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #0e0f0c;
+      font-family: "Inter", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      line-height: 1.44;
+      font-size: 18px;
+      letter-spacing: 0.18px;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "calt" on;
+    }
+
+    /* Wise-style display headings (using Inter at weight 900 as Wise Sans fallback) */
+    h1, h2, h3, .display, .wise-display {
+      font-family: "Inter", "Helvetica", "Arial", sans-serif;
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: normal;
+      font-feature-settings: "calt" on;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ----- COLOR PALETTE ----- */
+    :root {
+      --near-black: #0e0f0c;
+      --wise-green: #9fe870;
+      --dark-green: #163300;
+      --light-mint: #e2f6d5;
+      --pastel-green: #cdffad;
+      --gray-muted: #868685;
+      --warm-dark: #454745;
+      --light-surface: #e8ebe6;
+      --ring-shadow: 0 0 0 1px rgba(14, 15, 12, 0.12);
+      --card-radius-lg: 40px;
+      --card-radius-md: 30px;
+      --card-radius-sm: 16px;
+      --pill-radius: 9999px;
+    }
+
+    /* ----- TYPOGRAPHY (Wise scaled) ----- */
+    .hero-title {
+      font-size: clamp(48px, 10vw, 96px);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 0.85;
+      margin-bottom: 48px;
+      letter-spacing: -0.02em;
+    }
+
+    .card-title {
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.23;
+      letter-spacing: -0.39px;
+    }
+
+    .feature-title {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.396px;
+    }
+
+    .body-semibold {
+      font-weight: 600;
+      letter-spacing: -0.108px;
+    }
+
+    .caption {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* ----- BUTTONS & INTERACTIVE (Wise green scale) ----- */
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--wise-green);
+      color: var(--dark-green);
+      font-weight: 600;
+      font-size: 18px;
+      padding: 8px 20px;
+      border-radius: var(--pill-radius);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      font-feature-settings: "calt" on;
+      box-shadow: var(--ring-shadow);
+      line-height: 1.2;
+    }
+
+    .pill-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .pill-btn:active {
+      transform: scale(0.95);
+    }
+
+    .pill-btn.secondary {
+      background-color: rgba(22, 51, 0, 0.08);
+      color: var(--near-black);
+      box-shadow: none;
+      border: 1px solid rgba(14,15,12,0.08);
+    }
+
+    /* ----- NAVIGATION (Wise-style) ----- */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(14,15,12,0.08);
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--near-black);
+      text-decoration: none;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-tab {
+      font-size: 20px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: var(--pill-radius);
+      color: var(--near-black);
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      font-feature-settings: "calt" on;
+      line-height: 1.2;
+    }
+
+    .nav-tab:hover {
+      background-color: rgba(211, 242, 192, 0.4);
+      transform: scale(1.02);
+    }
+
+    .nav-tab.active {
+      background-color: var(--wise-green);
+      color: var(--dark-green);
+      box-shadow: var(--ring-shadow);
+    }
+
+    /* ----- LAYOUT & TAB CONTENT ----- */
+    .tab-content {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .tab-content.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ----- CARDS (Wise ring & radius) ----- */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .project-card {
+      background: #ffffff;
+      border-radius: var(--card-radius-md);
+      padding: 28px 24px;
+      box-shadow: var(--ring-shadow);
+      border: 1px solid rgba(14,15,12,0.06);
+      transition: transform 0.15s ease;
+    }
+
+    .project-card:hover {
+      transform: scale(1.01);
+      box-shadow: 0 0 0 1px rgba(159, 232, 112, 0.3), var(--ring-shadow);
+    }
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 12px;
+    }
+
+    .tag {
+      background: var(--light-mint);
+      color: var(--dark-green);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: var(--pill-radius);
+      letter-spacing: -0.2px;
+    }
+
+    /* ----- TECH CARDS (expandable) ----- */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .tech-card {
+      background: #ffffff;
+      border-radius: var(--card-radius-md);
+      box-shadow: var(--ring-shadow);
+      border: 1px solid rgba(14,15,12,0.06);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .tech-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 28px;
+      cursor: pointer;
+      user-select: none;
+      background: transparent;
+      transition: background 0.15s;
+      font-weight: 700;
+    }
+
+    .tech-header:hover {
+      background-color: rgba(159, 232, 112, 0.08);
+    }
+
+    .tech-header h3 {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .tech-toggle {
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--dark-green);
+      background: var(--wise-green);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .tech-card.expanded .tech-toggle {
+      transform: rotate(45deg);
+      background: var(--dark-green);
+      color: var(--wise-green);
+    }
+
+    .tech-content {
+      max-height: 0;
+      opacity: 0;
+      padding: 0 28px;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.2s;
+      background-color: #fafbf9;
+      border-top: 1px solid transparent;
+    }
+
+    .tech-card.expanded .tech-content {
+      max-height: 500px;   /* enough for content */
+      opacity: 1;
+      padding: 20px 28px 28px;
+      border-top: 1px solid rgba(14,15,12,0.08);
+    }
+
+    .tech-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tech-list li {
+      font-size: 18px;
+      font-weight: 500;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .bullet {
+      color: var(--wise-green);
+      font-weight: 900;
+      margin-right: 12px;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .context-note {
+      margin-top: 16px;
+      font-size: 16px;
+      color: var(--warm-dark);
+      font-style: italic;
+      border-left: 4px solid var(--wise-green);
+      padding-left: 20px;
+    }
+
+    /* ----- ABOUT (minimal) ----- */
+    .about-section {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      max-width: 720px;
+    }
+
+    .edu-item {
+      margin-bottom: 20px;
+    }
+
+    .edu-title {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .edu-meta {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--warm-dark);
+      margin-top: 8px;
+    }
+
+    .contact-line {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      align-items: center;
+      background: var(--light-surface);
+      padding: 28px 32px;
+      border-radius: var(--card-radius-lg);
+    }
+
+    .contact-item {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--near-black);
+      text-decoration: none;
+      border-bottom: 2px solid var(--wise-green);
+    }
+
+    /* ----- FOOTER / MISC ----- */
+    .featured-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .featured-link {
+      background: transparent;
+      border: 1.5px solid var(--wise-green);
+      color: var(--dark-green);
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: var(--pill-radius);
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: none;
+    }
+
+    .featured-link:hover {
+      background: var(--wise-green);
+      transform: scale(1.02);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(14,15,12,0.12);
+      margin: 40px 0 20px;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .navbar { flex-direction: column; gap: 16px; }
+      .nav-tabs { flex-wrap: wrap; justify-content: center; }
+      .section-title { font-size: 48px; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .project-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 56px; }
+    }
+
+    /* additional wise touches */
+    .green-underline {
+      text-decoration: underline wavy var(--wise-green) 2px;
+      text-underline-offset: 10px;
+    }
+
+    .intro-text {
+      font-size: 24px;
+      font-weight: 500;
+      max-width: 900px;
+      margin-bottom: 32px;
+      line-height: 1.4;
+    }
+
+    .ring-card {
+      box-shadow: var(--ring-shadow);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <a href="#" class="logo" data-tab="home">Michelle W</a>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="home">Home</button>
+      <button class="nav-tab" data-tab="projects">Projects</button>
+      <button class="nav-tab" data-tab="tech">Tech</button>
+      <button class="nav-tab" data-tab="about">About</button>
+    </div>
+  </header>
+
+  <!-- TAB: HOME -->
+  <section id="home" class="tab-content active">
+    <div style="margin-top: 20px;">
+      <h1 class="hero-title">Solution<br>Architect &<br>Cloud Engineer</h1>
+      <p class="intro-text">
+        Hi, I'm Michelle W. I design secure, scalable systems, lead global compliance projects, 
+        and turn operational data into actionable insights — bridging chemistry and cloud.
+      </p>
+
+      <hr>
+
+      <h3 style="font-size: 40px; font-weight: 900; line-height: 0.9; margin: 48px 0 24px;">Featured projects</h3>
+      <div class="featured-links">
+        <button class="featured-link" data-goto-project="iot">IoT-Cloud MLPS Level 3</button>
+        <button class="featured-link" data-goto-project="azure">Azure Migration & Bastion</button>
+        <button class="featured-link" data-goto-project="analytics">IT Event Analytics (Power BI)</button>
+      </div>
+      <p style="margin-top: 24px; color: var(--warm-dark);">↓ Detailed case studies in Projects tab</p>
+    </div>
+  </section>
+
+  <!-- TAB: PROJECTS (no company, no year) -->
+  <section id="projects" class="tab-content">
+    <h2 class="section-title">Projects</h2>
+    <div class="project-grid">
+      
+      <!-- Card 1: IoT MLPS -->
+      <div class="project-card" id="proj-iot">
+        <div class="card-title">IoT-Cloud Platform · MLPS Level 3</div>
+        <div class="tag-group">
+          <span class="tag">Compliance</span>
+          <span class="tag">Cross-regional</span>
+          <span class="tag">IoT security</span>
+        </div>
+        <p style="margin: 16px 0; font-weight: 400;">
+          Led local deployment and security certification for global IoT-cloud system.
+          Coordinated US project management, India development, Spanish IAM, and Chinese security assessors. 
+          Delivered full MLPS Level 3 compliance on schedule.
+        </p>
+        <p class="caption" style="color: var(--warm-dark);">Role: Solution Architect</p>
+      </div>
+
+      <!-- Card 2: IT Event Analytics -->
+      <div class="project-card" id="proj-analytics">
+        <div class="card-title">IT Event Analytics Pipeline</div>
+        <div class="tag-group">
+          <span class="tag">Power BI</span>
+          <span class="tag">Automation</span>
+          <span class="tag">Data pipeline</span>
+        </div>
+        <p style="margin: 16px 0;">
+          Designed automated data collection from Teams & SharePoint, built Power BI dashboards 
+          to visualize incident trends and team workload. Enabled data-driven service improvements.
+        </p>
+        <p class="caption" style="color: var(--warm-dark);">Role: Solution Architect</p>
+      </div>
+
+      <!-- Card 3: Azure Migration & Bastion -->
+      <div class="project-card" id="proj-azure">
+        <div class="card-title">Azure Migration & Bastion Architecture</div>
+        <div class="tag-group">
+          <span class="tag">Azure IaaS</span>
+          <span class="tag">Migration</span>
+          <span class="tag">Bastion</span>
+        </div>
+        <p style="margin: 16px 0;">
+          Evaluated on-prem workloads for cloud migration; designed backup strategies and secure 
+          bastion host solution. Configured virtual networking, VMs, and storage aligned with security best practices.
+        </p>
+        <p class="caption" style="color: var(--warm-dark);">Role: Cloud Operations Engineer</p>
+      </div>
+
+      <!-- Card 4: HRIS Implementation & Localization -->
+      <div class="project-card">
+        <div class="card-title">HRIS Localization & Launch</div>
+        <div class="tag-group">
+          <span class="tag">Process mapping</span>
+          <span class="tag">Data migration</span>
+          <span class="tag">UAT (JIRA)</span>
+        </div>
+        <p style="margin: 16px 0;">
+          Partnered with HR and global change teams to map regional processes into new global HRIS. 
+          Led data verification, migration, and UAT tracking. Built knowledge base for frontline support.
+        </p>
+        <p class="caption" style="color: var(--warm-dark);">Role: HRIS Coordinator</p>
+        <p style="margin-top: 12px; font-size: 15px; font-weight: 500;">🏆 Great Achievement Award (team member)</p>
+      </div>
+    </div>
+    <p style="margin-top: 32px; font-style: italic; color: var(--gray-muted);">* All projects anonymized — focus on responsibilities & outcomes.</p>
+  </section>
+
+  <!-- TAB: TECH (expandable cards) -->
+  <section id="tech" class="tab-content">
+    <h2 class="section-title">Tech stack<br>& expertise</h2>
+    <div class="tech-grid">
+      
+      <!-- Cloud & Infrastructure Card -->
+      <div class="tech-card" id="tech-cloud">
+        <div class="tech-header">
+          <h3>Cloud &<br>Infrastructure</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> Microsoft Azure</li>
+            <li><span class="bullet">•</span> Azure IaaS (VM, Storage, Backup)</li>
+            <li><span class="bullet">•</span> Azure Virtual Network</li>
+            <li><span class="bullet">•</span> ARM Templates</li>
+            <li><span class="bullet">•</span> Terraform (IaC)</li>
+            <li><span class="bullet">•</span> CI/CD Pipelines</li>
+          </ul>
+          <div class="context-note">
+            Architecture, migration, and automation of Azure workloads — from lift-and-shift to infrastructure as code.
+          </div>
+        </div>
+      </div>
+
+      <!-- Security & Compliance Card -->
+      <div class="tech-card" id="tech-security">
+        <div class="tech-header">
+          <h3>Security &<br>Compliance</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> MLPS Level 3 (China)</li>
+            <li><span class="bullet">•</span> Network Security Groups (NSG)</li>
+            <li><span class="bullet">•</span> Azure Security Center</li>
+            <li><span class="bullet">•</span> RBAC & IAM principles</li>
+            <li><span class="bullet">•</span> CISP (Certified Information Security Engineer)</li>
+          </ul>
+          <div class="context-note">
+            Led compliance projects, coordinated global security rectification, and incident response planning.
+          </div>
+        </div>
+      </div>
+
+      <!-- Data & Visualization -->
+      <div class="tech-card" id="tech-data">
+        <div class="tech-header">
+          <h3>Data &<br>Visualization</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> Power BI (dashboard design)</li>
+            <li><span class="bullet">•</span> SharePoint data integration</li>
+            <li><span class="bullet">•</span> Log Analytics</li>
+            <li><span class="bullet">•</span> Teams automation</li>
+          </ul>
+          <div class="context-note">
+            Built IT event analytics pipeline; transformed support data into actionable visual models.
+          </div>
+        </div>
+      </div>
+
+      <!-- Process & Methodologies -->
+      <div class="tech-card" id="tech-process">
+        <div class="tech-header">
+          <h3>Process &<br>Methodologies</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> Infrastructure as Code (IaC)</li>
+            <li><span class="bullet">•</span> Agile / Scrum</li>
+            <li><span class="bullet">•</span> Cross-regional alignment</li>
+            <li><span class="bullet">•</span> Incident Response Planning</li>
+            <li><span class="bullet">•</span> Knowledge Base & Training</li>
+            <li><span class="bullet">•</span> Vendor Management Automation</li>
+          </ul>
+          <div class="context-note">
+            Approach: systematic, collaborative, and security-first. 
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 36px; font-size: 16px; color: var(--gray-muted);">Click any card to expand — each represents hands‑on proficiency.</p>
+  </section>
+
+  <!-- TAB: ABOUT (minimal: Education + Contact) -->
+  <section id="about" class="tab-content">
+    <h2 class="section-title">About</h2>
+    <div class="about-section">
+      <div>
+        <h3 style="font-size: 48px; font-weight: 900; line-height: 0.9; margin-bottom: 32px;">Education</h3>
+        <div class="edu-item">
+          <div class="edu-title">Master of Application Chemistry</div>
+          <div class="edu-meta">Beijing Jiaotong University · National Scholarship</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-title">Bachelor of Material Chemistry</div>
+          <div class="edu-meta">Beijing Jiaotong University</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size: 48px; font-weight: 900; line-height: 0.9; margin-bottom: 32px;">Contact</h3>
+        <div class="contact-line">
+          <span class="contact-item">michelle.w@wise.portfolio</span>
+          <span class="contact-item">linkedin.com/in/michelle-w</span>
+          <span class="contact-item">github.com/michelle-w</span>
+        </div>
+        <p style="margin-top: 28px; color: var(--warm-dark);">📍 Based in Beijing · open to global collaboration</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin: 80px 0 40px; border-top: 1px solid rgba(14,15,12,0.08); padding-top: 24px; display: flex; justify-content: space-between; color: var(--gray-muted);">
+    <span>Michelle W — solution architecture & cloud</span>
+    <span style="font-weight: 500;">#WiseGreen · #calt on</span>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // ---------- TAB SWITCHING ----------
+    const tabs = document.querySelectorAll('.nav-tab');
+    const contents = document.querySelectorAll('.tab-content');
+
+    function switchTab(tabId) {
+      // Update active tab button
+      tabs.forEach(tab => {
+        const isActive = tab.dataset.tab === tabId;
+        tab.classList.toggle('active', isActive);
+      });
+      // Show corresponding content
+      contents.forEach(content => {
+        const isActive = content.id === tabId;
+        content.classList.toggle('active', isActive);
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const tabId = tab.dataset.tab;
+        if (tabId) switchTab(tabId);
+      });
+    });
+
+    // Logo also switches to home
+    document.querySelector('.logo').addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab('home');
+    });
+
+    // ---------- TECH CARD EXPAND/COLLAPSE (click header) ----------
+    const techCards = document.querySelectorAll('.tech-card');
+    techCards.forEach(card => {
+      const header = card.querySelector('.tech-header');
+      header.addEventListener('click', () => {
+        card.classList.toggle('expanded');
+        // Optional: change toggle symbol (but we already use +/- via CSS rotation)
+        const toggleSpan = header.querySelector('.tech-toggle');
+        if (card.classList.contains('expanded')) {
+          toggleSpan.textContent = '−';  // minus
+        } else {
+          toggleSpan.textContent = '+';
+        }
+      });
+    });
+
+    // ---------- HOME FEATURED LINKS -> switch to Projects tab ----------
+    const featuredBtns = document.querySelectorAll('[data-goto-project]');
+    featuredBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchTab('projects');
+        // Optional: scroll to project card for context? 
+        const projId = btn.dataset.gotoProject;
+        let targetCard;
+        if (projId === 'iot') targetCard = document.getElementById('proj-iot');
+        else if (projId === 'azure') targetCard = document.getElementById('proj-azure');
+        else if (projId === 'analytics') targetCard = document.getElementById('proj-analytics');
+        
+        if (targetCard) {
+          setTimeout(() => {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // subtle highlight
+            targetCard.style.transition = 'box-shadow 0.2s';
+            targetCard.style.boxShadow = '0 0 0 2px var(--wise-green), var(--ring-shadow)';
+            setTimeout(() => targetCard.style.boxShadow = '', 1500);
+          }, 100);
+        }
+      });
+    });
+
+    // If URL hash wants to open a tab (e.g., #tech)
+    function handleHash() {
+      const hash = window.location.hash.substring(1);
+      if (hash && ['home','projects','tech','about'].includes(hash)) {
+        switchTab(hash);
+      }
+    }
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+
+    // small tweak: tech-toggle initial symbol all '+'
+    document.querySelectorAll('.tech-toggle').forEach(el => el.textContent = '+');
+  })();
+</script>
+
+<!-- ensure expanded cards toggle correctly -->
+</body>
+</html>

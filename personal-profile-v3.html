@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michelle W · Solution Architect</title>
+  <!-- Font & base style -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <style>
+    /* ----- RESET & WISE DESIGN TOKENS ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #0e0f0c;
+      font-family: "Inter", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      line-height: 1.44;
+      font-size: 18px;
+      letter-spacing: 0.18px;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "calt" on;
+    }
+
+    h1, h2, h3, .display, .wise-display {
+      font-family: "Inter", "Helvetica", "Arial", sans-serif;
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: normal;
+      font-feature-settings: "calt" on;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    :root {
+      --near-black: #0e0f0c;
+      --wise-green: #9fe870;
+      --dark-green: #163300;
+      --light-mint: #e2f6d5;
+      --pastel-green: #cdffad;
+      --gray-muted: #868685;
+      --warm-dark: #454745;
+      --light-surface: #e8ebe6;
+      --ring-shadow: 0 0 0 1px rgba(14, 15, 12, 0.12);
+      --card-radius-lg: 40px;
+      --card-radius-md: 30px;
+      --card-radius-sm: 16px;
+      --pill-radius: 9999px;
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 10vw, 96px);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 0.85;
+      margin-bottom: 48px;
+      letter-spacing: -0.02em;
+    }
+
+    .card-title {
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.23;
+      letter-spacing: -0.39px;
+    }
+
+    .feature-title {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.396px;
+    }
+
+    .body-semibold {
+      font-weight: 600;
+      letter-spacing: -0.108px;
+    }
+
+    .caption {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--wise-green);
+      color: var(--dark-green);
+      font-weight: 600;
+      font-size: 18px;
+      padding: 8px 20px;
+      border-radius: var(--pill-radius);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      font-feature-settings: "calt" on;
+      box-shadow: var(--ring-shadow);
+      line-height: 1.2;
+    }
+
+    .pill-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .pill-btn:active {
+      transform: scale(0.95);
+    }
+
+    .pill-btn.secondary {
+      background-color: rgba(22, 51, 0, 0.08);
+      color: var(--near-black);
+      box-shadow: none;
+      border: 1px solid rgba(14,15,12,0.08);
+    }
+
+    /* ----- STICKY NAVIGATION (fixed on scroll) ----- */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(14,15,12,0.08);
+      margin-bottom: 40px;
+      
+      /* Sticky behavior */
+      position: sticky;
+      top: 0;
+      background-color: #ffffff;
+      z-index: 100;
+      
+      /* Slight shadow when sticky (appears on scroll via JS or just always subtle) */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      transition: box-shadow 0.2s;
+    }
+
+    /* Optional: increase shadow when page is scrolled (using a tiny class, but not necessary) */
+    .navbar.scrolled {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--near-black);
+      text-decoration: none;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-tab {
+      font-size: 20px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: var(--pill-radius);
+      color: var(--near-black);
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      font-feature-settings: "calt" on;
+      line-height: 1.2;
+    }
+
+    .nav-tab:hover {
+      background-color: rgba(211, 242, 192, 0.4);
+      transform: scale(1.02);
+    }
+
+    .nav-tab.active {
+      background-color: var(--wise-green);
+      color: var(--dark-green);
+      box-shadow: var(--ring-shadow);
+    }
+
+    .tab-content {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .tab-content.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ----- PROJECTS VERTICAL LIST ----- */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .project-card {
+      background: #ffffff;
+      border-radius: var(--card-radius-md);
+      padding: 32px 36px;
+      box-shadow: var(--ring-shadow);
+      border: 1px solid rgba(14,15,12,0.06);
+      transition: transform 0.15s ease, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .project-card:hover {
+      transform: scale(1.005);
+      box-shadow: 0 0 0 1px rgba(159, 232, 112, 0.25), var(--ring-shadow);
+    }
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 16px;
+    }
+
+    .tag {
+      background: var(--light-mint);
+      color: var(--dark-green);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 4px 14px;
+      border-radius: var(--pill-radius);
+      letter-spacing: -0.2px;
+    }
+
+    /* ----- FEATURED CARDS (Home) 4 cards ----- */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .featured-card {
+      background: #ffffff;
+      border-radius: var(--card-radius-md);
+      padding: 24px 20px;
+      box-shadow: var(--ring-shadow);
+      border: 1px solid rgba(14,15,12,0.06);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 2px var(--wise-green), var(--ring-shadow);
+      background-color: #fafdf7;
+    }
+
+    .featured-card h4 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: var(--near-black);
+    }
+
+    .featured-card p {
+      font-size: 15px;
+      color: var(--warm-dark);
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .featured-arrow {
+      align-self: flex-end;
+      font-size: 24px;
+      color: var(--wise-green);
+      font-weight: 300;
+    }
+
+    /* ----- TECH CARDS (expandable) ----- */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .tech-card {
+      background: #ffffff;
+      border-radius: var(--card-radius-md);
+      box-shadow: var(--ring-shadow);
+      border: 1px solid rgba(14,15,12,0.06);
+      overflow: hidden;
+    }
+
+    .tech-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 28px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+      font-weight: 700;
+    }
+
+    .tech-header:hover {
+      background-color: rgba(159, 232, 112, 0.08);
+    }
+
+    .tech-header h3 {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .tech-toggle {
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--dark-green);
+      background: var(--wise-green);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .tech-card.expanded .tech-toggle {
+      transform: rotate(45deg);
+      background: var(--dark-green);
+      color: var(--wise-green);
+    }
+
+    .tech-content {
+      max-height: 0;
+      opacity: 0;
+      padding: 0 28px;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.2s;
+      background-color: #fafbf9;
+      border-top: 1px solid transparent;
+    }
+
+    .tech-card.expanded .tech-content {
+      max-height: 500px;
+      opacity: 1;
+      padding: 20px 28px 28px;
+      border-top: 1px solid rgba(14,15,12,0.08);
+    }
+
+    .tech-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tech-list li {
+      font-size: 18px;
+      font-weight: 500;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .bullet {
+      color: var(--wise-green);
+      font-weight: 900;
+      margin-right: 12px;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .context-note {
+      margin-top: 16px;
+      font-size: 16px;
+      color: var(--warm-dark);
+      font-style: italic;
+      border-left: 4px solid var(--wise-green);
+      padding-left: 20px;
+    }
+
+    /* ----- ABOUT (minimal) ----- */
+    .about-section {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      max-width: 720px;
+    }
+
+    .edu-item {
+      margin-bottom: 20px;
+    }
+
+    .edu-title {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .edu-meta {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--warm-dark);
+      margin-top: 8px;
+    }
+
+    .contact-line {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      align-items: center;
+      background: var(--light-surface);
+      padding: 28px 32px;
+      border-radius: var(--card-radius-lg);
+    }
+
+    .contact-item {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--near-black);
+      text-decoration: none;
+      border-bottom: 2px solid var(--wise-green);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(14,15,12,0.12);
+      margin: 40px 0 20px;
+    }
+
+    .green-underline {
+      text-decoration: underline wavy var(--wise-green) 2px;
+      text-underline-offset: 10px;
+    }
+
+    .intro-text {
+      font-size: 24px;
+      font-weight: 500;
+      max-width: 900px;
+      margin-bottom: 32px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 900px) {
+      .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .navbar { flex-direction: column; gap: 12px; padding: 16px 0; }
+      .nav-tabs { flex-wrap: wrap; justify-content: center; }
+      .section-title { font-size: 48px; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 56px; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .project-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header / Navigation (STICKY) -->
+  <header class="navbar" id="mainNavbar">
+    <a href="#" class="logo" data-tab="home">Michelle W</a>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="home">Home</button>
+      <button class="nav-tab" data-tab="projects">Projects</button>
+      <button class="nav-tab" data-tab="tech">Tech</button>
+      <button class="nav-tab" data-tab="about">About</button>
+    </div>
+  </header>
+
+  <!-- TAB: HOME -->
+  <section id="home" class="tab-content active">
+    <div style="margin-top: 20px;">
+      <h1 class="hero-title">Solution<br>Architect &  AI Learner </h1>
+      <br>
+      <p class="intro-text">
+        Hi, I'm Michelle W. As a solution architect, I design systems, lead projects, 
+        and turn requirements into actionable insights - bridging business strategy and technology. 
+        Meanwhile, I am a AI learner, exploring how AI technologies can reshape decision-making boundaries.
+      </p>
+
+      <hr>
+
+      <h3 style="font-size: 40px; font-weight: 900; line-height: 0.9; margin: 48px 0 24px;">Featured projects</h3>
+      
+      <!-- Four featured cards (click to Projects tab) -->
+      <div class="featured-grid">
+        <div class="featured-card" data-goto-project="iot">
+          <h4>IoT-Cloud management platform</h4>
+          <p>Global coordination · Deployment · security rectification</p>
+          <span class="featured-arrow">→</span>
+        </div>
+        <div class="featured-card" data-goto-project="analytics">
+          <h4>IT Incidents Analytics & Visualization</h4>
+          <p>Power BI · ITSM · data-driven insights</p>
+          <span class="featured-arrow">→</span>
+        </div>
+        <div class="featured-card" data-goto-project="azure">
+          <h4>On-Prem to Cloud Migration</h4>
+          <p>IaaS migration · security architecture · budget evaluation</p>
+          <span class="featured-arrow">→</span>
+        </div>
+        <div class="featured-card" data-goto-project="hris">
+          <h4>HRIS Localization</h4>
+          <p><br>Process mapping · data migration · knowledge base</p>
+          <span class="featured-arrow">→</span>
+        </div>
+      </div>
+      <p style="margin-top: 32px; color: var(--warm-dark);">-> Click jump to the full case study</p>
+    </div>
+  </section>
+
+  <!-- TAB: PROJECTS (vertical list) -->
+  <section id="projects" class="tab-content">
+    <h2 class="section-title">Projects</h2>
+    <div class="project-list">
+      
+      <!-- IoT MLPS -->
+      <div class="project-card" id="proj-iot">
+        <div class="card-title">IoT-Cloud management platform</div>
+        <div class="tag-group">
+          <span class="tag">Compliance</span>
+          <span class="tag">Azure Solution Architect</span>
+          <span class="tag">IoT security</span>
+        </div>
+        <p style="font-size: 18px; margin: 16px 0; max-width: 800px;">
+          The project follows China MLPS III standard with mandatory IoT extensions implement by cross-regional team.
+          Beyond general IT security, it adds endpoint identity and admission control, 
+          encrypted communication, physical protection for instruments, plus centralized log management and third‑party assessment.
+        </p>
+      </div>
+
+      <!-- IT Event Analytics -->
+      <div class="project-card" id="proj-analytics">
+        <div class="card-title">IT Incidents Analytics & Visualization</div>
+        <div class="tag-group">
+          <span class="tag">Power BI</span>
+          <span class="tag">Automation</span>
+          <span class="tag">Database Design</span>
+        </div>
+        <p style="font-size: 18px; margin: 16px 0;max-width: 800px;">
+          A platform integrating log, hardware metric, performance, and security event data, 
+          with automated data ingestion solution to transmitting data from on-prem to cloud.
+          Supported sharding strategy of future IoT system integration and scalability. 
+          The platform immediately identified a hidden hardware issue, 
+          leading to a 30% monthly reduction in related incidents after hardware upgrades. 
+        </p>
+      </div>
+
+      <!-- Azure Migration -->
+      <div class="project-card" id="proj-azure">
+        <div class="card-title">On‑Prem to Cloud Migration</div>
+        <div class="tag-group">
+          <span class="tag">Azure IaaS & PaaS & SaaS</span>
+          <span class="tag">Migration</span>
+          <span class="tag">Budget Evaluation</span>
+        </div>
+        <p style="font-size: 18px; margin: 16px 0;max-width: 800px;">
+          Evaluated and settled migration priorities for Dev, UAT, and PRO environments to Azure.
+          Designed backup strategies and implemented security solutions.
+          Configured resources to meet performance and security requirements.
+          Analyzed billing after service stabilization to identify opportunities for cost reduction.
+        </p>
+      </div>
+
+      <!-- HRIS Implementation -->
+      <div class="project-card" id="proj-hris">
+        <div class="card-title">HRIS Localization</div>
+        <div class="tag-group">
+          <span class="tag">Success Factor</span>
+          <span class="tag">Data migration</span>
+          <span class="tag">Knowledge base</span>
+        </div>
+        <p style="font-size: 18px; margin: 16px 0;max-width: 800px;">
+          Aim to mapping local HR processes into a new global HRIS system. 
+          Collecte HR data and process, breaking it down into easily understandable stories, 
+          and communicate these narratives to global dev team. 
+          Organize local members do UAT and tracking feedback via JIRA.
+          Build knowledge base for frontline support team after system launch.
+          Win the company achievement prize. 
+        </p>
+      </div>
+    </div>
+    <p style="margin-top: 40px; font-style: italic; color: var(--gray-muted);">* All projects anonymized — Protect with companys' data secure .</p>
+  </section>
+
+  <!-- TAB: TECH (expandable cards) -->
+  <section id="tech" class="tab-content">
+    <h2 class="section-title">Tech stack<br>& expertise</h2>
+    <div class="tech-grid">
+      
+      <div class="tech-card" id="tech-cloud">
+        <div class="tech-header">
+          <h3>Cloud &<br>Infrastructure</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> Microsoft Azure</li>
+            <li><span class="bullet">•</span> VMWare | Hyper-v</li>
+            <li><span class="bullet">•</span> Terraform | ARM </li>
+            <li><span class="bullet">•</span> Oracle | SQL | MySQL</li>
+            <li><span class="bullet">•</span> CI/CD </li>
+          </ul>
+          <div class="context-note">On-Prem and Cloud Infra management , architecture solution.</div>
+        </div>
+      </div>
+
+      <div class="tech-card" id="tech-security">
+        <div class="tech-header">
+          <h3>Security &<br>Compliance</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> GDPR | ISO 27001 |MLPS</li>
+            <li><span class="bullet">•</span> RBAC & IAM</li>
+            <li><span class="bullet">•</span> Contingency Plan</li>
+            <li><span class="bullet">•</span> SIEM</li>
+          </ul>
+          <div class="context-note">Led security projects, contingency planning.</div>
+        </div>
+      </div>
+
+      <div class="tech-card" id="tech-data">
+        <div class="tech-header">
+          <h3>Data &<br>Visualization</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> Power BI</li>
+            <li><span class="bullet">•</span> Database</li>
+            <li><span class="bullet">•</span> Log Analytics</li>
+            <li><span class="bullet">•</span> Power Automate</li>
+          </ul>
+          <div class="context-note">Built IT analytics pipeline, turned data into dashboard then stories.</div>
+        </div>
+      </div>
+
+      <div class="tech-card" id="tech-process">
+        <div class="tech-header">
+          <h3>Process &<br>Methodologies</h3>
+          <span class="tech-toggle">+</span>
+        </div>
+        <div class="tech-content">
+          <ul class="tech-list">
+            <li><span class="bullet">•</span> Project management</li>
+            <li><span class="bullet">•</span> Agile / Scrum</li>
+            <li><span class="bullet">•</span> Cross-regional alignment</li>
+            <li><span class="bullet">•</span> ITSM / ITIL</li>
+            <li><span class="bullet">•</span> Knowledge Base & Training</li>
+          </ul>
+          <div class="context-note">Systematic, collaborative, risk prevent approach.</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 36px; font-size: 16px; color: var(--gray-muted);">Click to expand — each represents hands‑on proficiency.</p>
+  </section>
+
+  <!-- TAB: ABOUT -->
+  <section id="about" class="tab-content">
+    <h2 class="section-title">About</h2>
+    <div class="about-section">
+      <div>
+        <h3 style="font-size: 48px; font-weight: 900; line-height: 0.9; margin-bottom: 32px;">Education</h3>
+        <div class="edu-item">
+          <div class="edu-meta">Beijing Jiaotong University · Master Degree</div>
+          <div class="edu-meta">National Sholarship</div>
+          <div class="edu-meta">Beijing Jiaotong University · Bachelor Degree</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size: 48px; font-weight: 900; line-height: 0.9; margin-bottom: 32px;">Contact</h3>
+        <div class="Contact-item">
+          <div class="Contact-meta">Email: michellew0109@163.com</div>
+        </div>
+        <div class="Contact-item">
+          <div class="Contact-meta">Github: github.com/michelle-w</div>
+        </div>
+        <div class="cv-download-wrapper">
+            <a href="#" class="pill-btn" download="Michelle_W_CV.pdf" onclick="alert('CV download simulation — in production this would be your actual PDF.'); return false;">
+              <i class="fas fa-download"></i> Download CV (PDF)
+            </a>
+          </div>
+        <p style="margin-top: 28px; color: var(--warm-dark);"><br>📍 Based in Beijing · open to global collaboration</p>
+      </div>
+    </div>
+  
+<!-- 右侧图片：偏右放置 -->
+    <div style="flex: 1; min-width: 180px; text-align: right;">
+      <img src="your-photo.jpg" alt="Michelle W." style="width: 100%; max-width: 260px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); object-fit: cover;">
+    </div>
+  </div>
+</section>
+
+  <footer style="margin: 80px 0 40px; border-top: 1px solid rgba(14,15,12,0.08); padding-top: 24px; display: flex; justify-content: space-between; color: var(--gray-muted);">
+    <span>Michelle W — Solution Architect & AI Learner </span>
+    <span style="font-weight: 500;"></span>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // ---------- STICKY NAVBAR SHADOW ON SCROLL (optional enhancement) ----------
+    const navbar = document.getElementById('mainNavbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // ---------- TAB SWITCHING ----------
+    const tabs = document.querySelectorAll('.nav-tab');
+    const contents = document.querySelectorAll('.tab-content');
+
+    function switchTab(tabId) {
+      tabs.forEach(tab => {
+        const isActive = tab.dataset.tab === tabId;
+        tab.classList.toggle('active', isActive);
+      });
+      contents.forEach(content => {
+        const isActive = content.id === tabId;
+        content.classList.toggle('active', isActive);
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const tabId = tab.dataset.tab;
+        if (tabId) switchTab(tabId);
+      });
+    });
+
+    document.querySelector('.logo').addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab('home');
+    });
+
+    // ---------- TECH CARD EXPAND/COLLAPSE ----------
+    const techCards = document.querySelectorAll('.tech-card');
+    techCards.forEach(card => {
+      const header = card.querySelector('.tech-header');
+      header.addEventListener('click', () => {
+        card.classList.toggle('expanded');
+        const toggleSpan = header.querySelector('.tech-toggle');
+        toggleSpan.textContent = card.classList.contains('expanded') ? '−' : '+';
+      });
+    });
+
+    // ---------- FEATURED CARDS & PROJECT LINKAGE ----------
+    const featuredCards = document.querySelectorAll('[data-goto-project]');
+    featuredCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const projId = card.dataset.gotoProject;
+        switchTab('projects');
+        
+        let targetCard;
+        if (projId === 'iot') targetCard = document.getElementById('proj-iot');
+        else if (projId === 'analytics') targetCard = document.getElementById('proj-analytics');
+        else if (projId === 'azure') targetCard = document.getElementById('proj-azure');
+        else if (projId === 'hris') targetCard = document.getElementById('proj-hris');
+        
+        if (targetCard) {
+          setTimeout(() => {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetCard.style.transition = 'box-shadow 0.3s';
+            targetCard.style.boxShadow = '0 0 0 3px var(--wise-green), var(--ring-shadow)';
+            setTimeout(() => targetCard.style.boxShadow = '', 2000);
+          }, 100);
+        }
+      });
+    });
+
+    // Initialize toggle symbols
+    document.querySelectorAll('.tech-toggle').forEach(el => el.textContent = '+');
+    
+    // Hash handling
+    function handleHash() {
+      const hash = window.location.hash.substring(1);
+      if (hash && ['home','projects','tech','about'].includes(hash)) {
+        switchTab(hash);
+      }
+    }
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+  })();
+</script>
+</body>
+</html>
