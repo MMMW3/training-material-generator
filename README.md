@@ -82,6 +82,8 @@ streamlit run web/app.py
 ## 📖 使用流程
 
 ```
+<img width="960" height="564" alt="image" src="https://github.com/user-attachments/assets/3fb5c233-c6d5-4c42-8838-932dd0eca4d2" />
+
 ┌─────────────────────────────────────────────────────────────┐
 │  Step 1  配置集成                                            │
 │  ├── Jira Cloud（Epic/Story 提取）                            │
